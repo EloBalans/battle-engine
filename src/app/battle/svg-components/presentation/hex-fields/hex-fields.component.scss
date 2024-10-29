@@ -1,0 +1,12 @@
+svg {
+  background-color: #f0f0f0;
+}
+
+.polygon:hover {
+  fill: #cccccc;
+  cursor: pointer;
+}
+
+.circle {
+  transition: all 0.5s linear;
+}

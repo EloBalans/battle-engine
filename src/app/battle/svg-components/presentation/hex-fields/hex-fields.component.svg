@@ -1,0 +1,43 @@
+<!--<svg-->
+<!--  height="100%"-->
+<!--  width="100%"-->
+<!--&gt;-->
+<!--  @for(xAxis of grid(); track xAxis; let xAxisIndex = $index) {-->
+<!--    @for(yAxis of xAxis; track yAxis; let yAxisIndex = $index) {-->
+<!--      <g hexField-->
+<!--         [x]="x(xAxisIndex,yAxisIndex)"-->
+<!--         [y]="y(xAxisIndex)"-->
+<!--         [heightBase]="yAxis.heightBase"-->
+<!--         [collision]="yAxis.collision"-->
+<!--      />-->
+<!--    }-->
+<!--  }-->
+
+<!--  <circle-->
+<!--    [attr.cx]="x(playerPos()[1],playerPos()[0])"-->
+<!--    [attr.cy]="y(playerPos()[0])"-->
+<!--    r="15"-->
+<!--    fill="blue"-->
+<!--    stroke="black"-->
+<!--    stroke-width="2">-->
+<!--  </circle>-->
+
+<!--</svg>-->
+<svg [attr.width]="svgWidth" [attr.height]="svgHeight"  [attr.x]="100" [attr.y]="100">
+
+  <g class="circle" [innerHTML]="drawPlayer()"   [attr.transform]="'translate('+100+' '+100+')'"></g>
+
+
+    @for (hex of sortedGrid;track hex){
+
+      <g
+        class="polygon"
+        [innerHTML]="drawHex(hex)"
+        (click)="onHexClick(hex)"
+        [attr.transform]="'translate('+100+' '+100+')'"
+      />
+    }
+
+  <g class="circle" [innerHTML]="drawPlayer()"   [attr.transform]="'translate('+100+' '+100+')'"></g>
+
+</svg>
