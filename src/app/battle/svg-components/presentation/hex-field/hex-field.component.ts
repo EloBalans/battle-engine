@@ -1,36 +1,47 @@
-import {Component, computed, input, signal} from '@angular/core';
+import {Component, computed, Inject, inject, input, output, Sanitizer, signal} from '@angular/core';
 import {HexHeight} from "../../../models/hex-height.enum";
+import {Hex} from "../../../models/hex.model";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import {HexGeometry} from "../../../utilities/hex-gemetry.utility";
+import {SVGRenderer} from "../../../utilities/svg-renderer.utility";
+import {SIZE_TOKEN, VERTICAL_SCALE_TOKEN} from "../../../consts/tokens.const";
+import {NgStyle} from "@angular/common";
 
 @Component({
   selector: '[hexField]',
   standalone: true,
-  imports: [],
+  imports: [
+    NgStyle
+  ],
   templateUrl: './hex-field.component.svg',
   styleUrl: './hex-field.component.scss'
 })
 export class HexFieldComponent {
-  heightBase = input<HexHeight>(HexHeight.SMALL);
-  collision = input<boolean>();
-  x = input<number>(0)
-  y = input<number>(0)
 
-  points = computed(()=> (
-    `0,${-60-(this.heightBase()*10)} ` +
-    `52,${-45-(this.heightBase()*10)}  ` +
-    `52,${-15-(this.heightBase()*10)}  ` +
-    `0,${0-(this.heightBase()*10)} ` +
-    `-52,${-15-(this.heightBase()*10)}` +
-    ` -52,${-45-(this.heightBase()*10)} ` +
-    `0,${-60-(this.heightBase()*10)}`
-  ))
+  hex = input.required<Hex>();
 
-  translateYScaffold = computed(()=>{
-    return this.translateYRoof()+ 10 + (this.heightBase() * 10);
-  })
+  sanitizer = inject(DomSanitizer)
 
-  translateYRoof = signal<number>(83); //height 80px + stroke 3px
+  onHexClickEvent = output<Hex>();
 
-  translateX = signal<number>(55); // width 52px + stroke 3px
+  constructor(
+    @Inject(SIZE_TOKEN) private size: number,
+    @Inject(VERTICAL_SCALE_TOKEN) private verticalScale: number
+  ) {}
+
+  drawHex(hex: Hex): SafeHtml {
+    const center = HexGeometry.hexToPixel(hex, this.size, this.verticalScale);
+    const corners = HexGeometry.getCorners(center, this.size, this.verticalScale);
+    const height = hex.height;
+    const fillColor = hex.collision ? '#802509' : '#1c571c';
+
+    const hexSvg = SVGRenderer.drawHex(corners, height, fillColor);
+    return this.sanitizer.bypassSecurityTrustHtml(hexSvg);
+  }
+
+  onHexClick(hex: Hex) {
+    this.onHexClickEvent.emit(hex)
+  }
 }
 
 

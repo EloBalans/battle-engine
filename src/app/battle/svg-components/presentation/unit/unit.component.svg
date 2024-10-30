@@ -1,0 +1,3 @@
+<svg>
+  <g class="circle" [innerHTML]="drawUnit()"   [attr.transform]="'translate('+100+' '+100+')'"></g>
+</svg>

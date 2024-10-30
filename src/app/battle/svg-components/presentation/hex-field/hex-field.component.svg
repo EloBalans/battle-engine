@@ -1,24 +1,12 @@
-<svg
-  [attr.x]="x()"
-  [attr.y]="y()"
->
-  <polygon
-    [attr.points]="points()"
-    [attr.transform]="'translate('+translateX()+' '+translateYScaffold()+')'"
-    stroke="#3A2C08"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="3"
-    fill="#503915"
-  />
-  <polygon
-    [attr.points]="points()"
-    [attr.transform]="'translate('+translateX()+' '+translateYRoof()+')'"
-    [attr.fill]="collision() ? '#802509' : '#1c571c' "
-    [attr.stroke]="collision() ? '#591906' : '#0c2903' "
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="3"
+<svg>
+  <g
+    class="polygon"
+    [innerHTML]="drawHex(hex())"
+    (click)="onHexClick(hex())"
+    [attr.transform]="'translate('+100+' '+100+')'"
+    [ngStyle]="{
+      'cursor': hex().collision ? 'not-allowed' : 'pointer',
+      'pointer-events': hex().collision ? 'none' : 'auto'
+    }"
   />
 </svg>
-
