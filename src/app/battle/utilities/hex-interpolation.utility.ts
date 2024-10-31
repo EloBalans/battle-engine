@@ -1,4 +1,4 @@
-import {HexCord} from "../models/hex.model";
+import { HexCord } from '../models/hex.model';
 
 export class HexInterpolator {
   static interpolate(start: HexCord, end: HexCord, t: number): HexCord {

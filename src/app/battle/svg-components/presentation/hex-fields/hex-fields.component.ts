@@ -1,68 +1,66 @@
-import {ChangeDetectorRef, Component, computed, effect, Inject, inject, input} from '@angular/core';
-import {HexFieldComponent} from "../hex-field/hex-field.component";
-import {NgStyle} from "@angular/common";
-import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
-import {HexPathfinderService} from "../../../services/hex-pathfinder/hex-pathfinder.service";
-import {GridService} from "../../../services/grid-generator/grid.service";
-import {Hex, HexCord} from "../../../models/hex.model";
-import {SVGRenderer} from "../../../utilities/svg-renderer.utility";
-import {HexGeometry} from "../../../utilities/hex-gemetry.utility";
-import {HeightCalculator} from "../../../utilities/height-calculator.utility";
-import {HexInterpolator} from "../../../utilities/hex-interpolation.utility";
-import {SIZE_TOKEN, VERTICAL_SCALE_TOKEN} from "../../../consts/tokens.const";
-import {UnitComponent} from "../unit/unit.component";
+import {
+  ChangeDetectorRef,
+  Component,
+  Inject
+} from '@angular/core';
+import { HexFieldComponent } from '../hex-field/hex-field.component';
+import { NgStyle } from '@angular/common';
+import { HexPathfinderService } from '../../../services/hex-pathfinder/hex-pathfinder.service';
+import { GridService } from '../../../services/grid-generator/grid.service';
+import { Hex, HexCord } from '../../../models/hex.model';
+import { HexGeometry } from '../../../utilities/hex-gemetry.utility';
+import { HexInterpolator } from '../../../utilities/hex-interpolation.utility';
+import { SIZE_TOKEN, VERTICAL_SCALE_TOKEN } from '../../../consts/tokens.const';
+import { UnitComponent } from '../unit/unit.component';
 
 @Component({
   selector: 'app-hex-fields',
   standalone: true,
-  imports: [
-    HexFieldComponent,
-    NgStyle,
-    UnitComponent
-  ],
+  imports: [HexFieldComponent, NgStyle, UnitComponent],
   templateUrl: './hex-fields.component.svg',
-  styleUrl: './hex-fields.component.scss'
+  styleUrl: './hex-fields.component.scss',
 })
 export class HexFieldsComponent {
-
   grid: Hex[] = [];
   svgWidth = 800;
   svgHeight = 600;
-
 
   playerPosition: HexCord = { q: 0, r: 0 };
   destination: HexCord | null = null;
   path: HexCord[] = [];
 
-  currentStep: number = 0;
-  stepStartTime: number = 0;
-  stepDuration: number = 1000;
+  currentStep = 0;
+  stepStartTime = 0;
+  stepDuration = 1000;
   animationFrameId: number | null = null;
-
 
   constructor(
     private cdr: ChangeDetectorRef,
     private hexPathfinder: HexPathfinderService,
     private gridService: GridService,
     @Inject(SIZE_TOKEN) private size: number,
-    @Inject(VERTICAL_SCALE_TOKEN) private verticalScale: number
+    @Inject(VERTICAL_SCALE_TOKEN) private verticalScale: number,
   ) {
-    this.grid = this.gridService.generateGrid()
-    this.hexPathfinder.setGrid(this.grid)
+    this.grid = this.gridService.generateGrid();
+    this.hexPathfinder.setGrid(this.grid);
   }
-
 
   get sortedGrid(): Hex[] {
     return this.grid.slice().sort((a, b) => {
-      const aY = HexGeometry.hexToPixel(a, this.size, this.verticalScale).y - a.height;
-      const bY = HexGeometry.hexToPixel(b, this.size, this.verticalScale).y - b.height;
+      const aY =
+        HexGeometry.hexToPixel(a, this.size, this.verticalScale).y - a.height;
+      const bY =
+        HexGeometry.hexToPixel(b, this.size, this.verticalScale).y - b.height;
       return aY - bY;
     });
   }
 
   onHexClick(hex: Hex) {
     this.destination = { q: hex.q, r: hex.r };
-    this.path = this.hexPathfinder.findPathWithCollisions(this.playerPosition, this.destination);
+    this.path = this.hexPathfinder.findPathWithCollisions(
+      this.playerPosition,
+      this.destination,
+    );
     this.startMovement();
   }
 
@@ -101,5 +99,4 @@ export class HexFieldsComponent {
 
     this.animationFrameId = requestAnimationFrame(this.animateMovement);
   };
-
 }

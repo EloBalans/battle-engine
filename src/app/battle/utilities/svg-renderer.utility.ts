@@ -3,7 +3,7 @@ export class SVGRenderer {
     cx: number,
     cy: number,
     radius: number,
-    fill: string
+    fill: string,
   ): string {
     return `
       <circle
@@ -20,7 +20,7 @@ export class SVGRenderer {
   static drawHex(
     corners: { x: number; y: number }[],
     height: number,
-    fillColor: string
+    fillColor: string,
   ): string {
     const topFacePoints = corners
       .map((p) => `${p.x},${p.y - height}`)
@@ -29,7 +29,7 @@ export class SVGRenderer {
     const frontSidesIndices = [0, 1, 5];
 
     let sides = '';
-    for (let i of frontSidesIndices) {
+    for (const i of frontSidesIndices) {
       const nextIndex = (i + 1) % 6;
       const p1 = corners[i];
       const p2 = corners[nextIndex];

@@ -8,9 +8,8 @@ describe('HpBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HpBarComponent]
-    })
-    .compileComponents();
+      imports: [HpBarComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HpBarComponent);
     component = fixture.componentInstance;

@@ -9,5 +9,5 @@ export interface Unit {
     range: number;
     initiative: number;
     movement: number;
-  },
+  };
 }

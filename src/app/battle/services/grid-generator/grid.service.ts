@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import {Hex} from "../../models/hex.model";
+import { Hex } from '../../models/hex.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GridService {
-
-  generateGrid(numRows: number = 5, numCols: number = 5): Hex[] {
+  generateGrid(numRows = 5, numCols = 5): Hex[] {
     const grid: Hex[] = [];
 
     for (let r = 0; r < numRows; r++) {

@@ -1,12 +1,10 @@
-import {inject, Injectable} from '@angular/core';
-import {Hex, HexCord} from "../../models/hex.model";
-import {GridService} from "../grid-generator/grid.service";
+import { Injectable } from '@angular/core';
+import { Hex, HexCord } from '../../models/hex.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HexPathfinderService {
-
   private grid: Hex[] = [];
 
   setGrid(grid: Hex[]) {
@@ -32,7 +30,7 @@ export class HexPathfinderService {
 
     while (openSet.length > 0) {
       openSet.sort(
-        (a, b) => fScore.get(this.hashHex(a))! - fScore.get(this.hashHex(b))!
+        (a, b) => fScore.get(this.hashHex(a))! - fScore.get(this.hashHex(b))!,
       );
       const current = openSet.shift()!;
 
@@ -54,7 +52,7 @@ export class HexPathfinderService {
           gScore.set(this.hashHex(neighbor), tentativeGScore);
           fScore.set(
             this.hashHex(neighbor),
-            tentativeGScore + this.heuristic(neighbor, endHex)
+            tentativeGScore + this.heuristic(neighbor, endHex),
           );
 
           if (!openSet.includes(neighbor)) {
@@ -66,7 +64,6 @@ export class HexPathfinderService {
 
     return [];
   }
-
 
   findPathWithoutCollisions(start: HexCord, end: HexCord): HexCord[] {
     const distance = this.hexDistance(start, end);
@@ -95,9 +92,9 @@ export class HexPathfinderService {
   }
 
   getHexAt(cord: HexCord): Hex | undefined {
-    console.log(cord)
+    console.log(cord);
     return this.grid.find(
-      (h) => h.q === cord.q && h.r === cord.r && !h.collision
+      (h) => h.q === cord.q && h.r === cord.r && !h.collision,
     );
   }
 
@@ -106,7 +103,12 @@ export class HexPathfinderService {
   }
 
   hexDistance(a: HexCord, b: HexCord): number {
-    return (Math.abs(a.q - b.q) + Math.abs(a.q + a.r - b.q - b.r) + Math.abs(a.r - b.r)) / 2;
+    return (
+      (Math.abs(a.q - b.q) +
+        Math.abs(a.q + a.r - b.q - b.r) +
+        Math.abs(a.r - b.r)) /
+      2
+    );
   }
 
   hexLerp(a: HexCord, b: HexCord, t: number): { q: number; r: number } {
@@ -150,7 +152,7 @@ export class HexPathfinderService {
       const neighborQ = hex.q + dir.q;
       const neighborR = hex.r + dir.r;
       const neighbor = this.grid.find(
-        (h) => h.q === neighborQ && h.r === neighborR && !h.collision
+        (h) => h.q === neighborQ && h.r === neighborR && !h.collision,
       );
       if (neighbor) {
         neighbors.push(neighbor);

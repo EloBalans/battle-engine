@@ -1,20 +1,12 @@
-@switch (battleState){
-  @case (BattleState.PREPARE){
-    <app-prepare
-      [teams]="teams()"
-      (goToBattleEvent)="goTo(BattleState.BATTLE)"
-    >
+@switch (battleState) {
+  @case (BattleState.PREPARE) {
+    <app-prepare [teams]="teams()" (goToBattleEvent)="goTo(BattleState.BATTLE)">
     </app-prepare>
   }
-  @case (BattleState.BATTLE){
-    <app-battlefield>
-
-    </app-battlefield>
-
+  @case (BattleState.BATTLE) {
+    <app-battlefield> </app-battlefield>
   }
-  @case (BattleState.SUMMARY){
-    <app-summary>
-
-    </app-summary>
+  @case (BattleState.SUMMARY) {
+    <app-summary> </app-summary>
   }
 }

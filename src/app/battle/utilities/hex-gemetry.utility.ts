@@ -1,10 +1,10 @@
-import {HexCord} from "../models/hex.model";
+import { HexCord } from '../models/hex.model';
 
 export class HexGeometry {
   static getCorners(
     center: { x: number; y: number },
     size: number,
-    verticalScale: number
+    verticalScale: number,
   ): { x: number; y: number }[] {
     const corners = [];
     const angleOffset = Math.PI / 6;
@@ -22,7 +22,7 @@ export class HexGeometry {
   static hexToPixel(
     hex: HexCord,
     size: number,
-    verticalScale: number
+    verticalScale: number,
   ): { x: number; y: number } {
     const x = size * Math.sqrt(3) * (hex.q + hex.r / 2);
     const y = size * 1.5 * hex.r * verticalScale;

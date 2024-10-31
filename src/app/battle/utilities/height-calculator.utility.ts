@@ -1,4 +1,4 @@
-import {Hex, HexCord} from "../models/hex.model";
+import { Hex, HexCord } from '../models/hex.model';
 
 export class HeightCalculator {
   static calculateHeightAt(cord: HexCord, grid: Hex[]): number {
@@ -14,8 +14,6 @@ export class HeightCalculator {
 
     if (hexes.length === 0) return 0;
 
-    return (
-      hexes.reduce((sum, h) => sum + h.height, 0) / hexes.length
-    );
+    return hexes.reduce((sum, h) => sum + h.height, 0) / hexes.length;
   }
 }

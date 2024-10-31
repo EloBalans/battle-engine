@@ -8,9 +8,8 @@ describe('HexFieldComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HexFieldComponent]
-    })
-    .compileComponents();
+      imports: [HexFieldComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HexFieldComponent);
     component = fixture.componentInstance;
